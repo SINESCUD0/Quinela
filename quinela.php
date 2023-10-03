@@ -81,11 +81,6 @@ for($col = 0; $col < rand(1,8); $col++){
 }
 $tabla = "<table>";
 
-/*foreach($partidos as $elemento){
-	foreach($elemento as $jornada){
-		$tabla .= "<td>".$jornada[0]."<br/> vs <br/>".$jornada[1]."</td>";
-	}
-}*/
 $numeros_generados = array();
 $min = 0;
 $max = 27;
@@ -93,38 +88,25 @@ $cantidad_numeros = 27;
 if ($cantidad_numeros > ($max - $min + 1)) {
     echo "No se pueden generar más números únicos que la longitud del rango.";
 }else {
-    for ($i = 0; $i < $cantidad_numeros; $i++) {
+    while(true){
         do {
             $numero_aleatorio = rand($min, $max);
 			$numero_aleatorio2 = rand($min, $max);
-        } while (in_array($numero_aleatorio, $numeros_generados) && in_array($numero_aleatorio2, $numeros_generados)); // Verifica si el número ya ha sido generado
-        $jornada1[] = array($equipos[$numero_aleatorio], $equipos[$numero_aleatorio2]);
-        $numeros_generados[] = $numero_aleatorio; // Agrega el número generado al arreglo
+        } while (in_array($numero_aleatorio, $numeros_generados) || in_array($numero_aleatorio2, $numeros_generados) || $numero_aleatorio == $numero_aleatorio2);
+        $numeros_generados[] = $numero_aleatorio;
 		$numeros_generados[] = $numero_aleatorio2;
-        //echo "Número generado: $numero_aleatorio<br>";
+		$jornada1[] = array($equipos[$numero_aleatorio], $equipos[$numero_aleatorio2]);
+		if(count($numeros_generados) == 28){
+			break;
+		}
     }
+	
 }
 var_dump($numeros_generados);
+var_dump($jornada1);
 foreach($jornada1 as $elemento){
 	$tabla .= "<td>".$elemento[0]."<br/> vs <br/>".$elemento[1]."</td>";
 }
-/*foreach($jornada1 as $partido){
-	$tabla .= "<td>".$partido."</td>";
-}*/
-/*for($i = 0; $i < 14; $i++){
-	$numeroAleatorio = rand(0,27);
-	unset($rango[array_search($numeroAleatorio, $rango)]);
-	$rango = array_values($rango);
-	$equipo1 = $equipos[$numeroAleatorio];
-		$numeroAleatorio = rand(0,27);
-		if(array_search($numeroAleatorio, $rango)){
-			$equipo1 = $equipos[$numeroAleatorio];
-			unset($rango[array_search($numeroAleatorio, $rango)]);
-			$rango = array_values($rango);
-		}
-	$jornada1[$i] = array($equipo1);
-}*/
-var_dump($jornada1);
 
 foreach($quinela as $columna){
 	$tabla .= "<tr>";
