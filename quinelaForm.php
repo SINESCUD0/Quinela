@@ -13,16 +13,6 @@ td, tr{
 <BODY>
 <form name='mi_formulario' action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method='post'>
 <?php
-
-if($_SERVER['REQUEST_METHOD'] == 'POST'){
-	for($i = 0; $i < 14; $i++){
-		$r = $i + 1;
-		$columna[$i] += ($_POST["resultado".$r]);
-	}
-	
-	var_dump($columna);
-}
-$columna = array();
 $numeros_generados = array();
 $min = 0;
 $max = 27;
@@ -63,7 +53,15 @@ $equipos = array(
 	"Andorra",
 	"Racing"
 );
-
+if($_SERVER['REQUEST_METHOD'] == 'POST'){
+	//Guarda los resultados que hemos introducido en la tabla, pero no consigo que guarden los partidos que estan relacionados a los resultados
+	for($i = 0; $i < 14; $i++){
+		$r = $i + 1;
+		$columna[$i][2] = ($_POST["resultado".$r]);
+	}
+	var_dump($columna);
+}
+//Genero los partidos de una jornada aleatoriamente
 if ($cantidad_numeros > ($max - $min + 1)) {
 	echo "No se pueden generar más números únicos que la longitud del rango.";
 }else {
@@ -77,7 +75,6 @@ if ($cantidad_numeros > ($max - $min + 1)) {
 			$jornada[] = array($equipos[$numero_aleatorio], $equipos[$numero_aleatorio2]);
 	}
 }
-
 /*$resultadosLength = strlen($resultados);
 for($col = 0; $col < 8; $col++){
 	for($fi = 0; $fi < 14; $fi++){
@@ -89,7 +86,7 @@ for($col = 0; $col < rand(1,8); $col++){
 		$quinela[$col][$fi] = $resultados[random_int(0, $resultadosLength - 1)];
 	}
 }*/
-$tabla = "<table>";
+//$tabla = "<table>";
 
 
 /*for($jornadas = 0; $jornadas < 56; $jornadas++){
@@ -132,7 +129,7 @@ var_dump($jornada);
 	}
 	$tabla .= "</tr>";
 }*/
-
+//Creo la tabla donde digo los partidos y luego la columna con los resultados
 $tabla2 = "
 <table>
 	<tr>
@@ -249,9 +246,7 @@ $tabla2 = "
 	</tr>
 </table>
 <br/>";
-for($i = 0; $i < 14; $i++){
-	$columna[$i] = array(($jornada[$i][0]),($jornada[$i][1]));
-}
+
 
 //var_dump($quinela);
 //echo $tabla."</table>";
